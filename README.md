@@ -43,7 +43,7 @@ arta/
 ### Backend API
 - **Node.js** + **Express.js v5**
 - **Supabase** (PostgreSQL + Auth + Storage)
-- **JWT Authentication** + **Multer** (file upload)
+- **JWT Authentication**
 - Deploy: **Vercel**
 
 ### Frontend
