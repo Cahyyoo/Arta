@@ -14,6 +14,9 @@ import iconGeneratedReport from "../assets/icons/generated-report.png";
 import iconForecasting from "../assets/icons/forecasting.png";
 import iconVisualData from "../assets/icons/visual-data.png";
 import iconOnboarding from "../assets/icons/onboarding.png";
+import iconEmail from "../assets/icons/email.png";
+import iconPhone from "../assets/icons/phone.png";
+import iconWeb from "../assets/icons/web.png";
 import iconKeamanan from "../assets/icons/keamanan.png";
 import iconCloudBased from "../assets/icons/cloud-based.png";
 import iconBukuKas from "../assets/icons/buku-kas.png";
@@ -25,28 +28,30 @@ import iconTrend from "../assets/icons/trend.png";
 import iconRealTime from "../assets/icons/real-time.png";
 import iconPerintis from "../assets/icons/perintis.png";
 import iconPengusaha from "../assets/icons/pengusaha.png";
+import heroMockup from "../assets/overview-dashboard.png";
+import onboarding1Img from "../assets/onboarding-1.png";
+import onboarding2Img from "../assets/onboarding-2.png";
+import onboarding3Img from "../assets/onboarding-3.png";
+import kuesioner1Img from "../assets/kuesioner-1.png";
+import hasilAnalisis1Img from "../assets/hasil-analysis-1.png";
+import hasilAnalisis2Img from "../assets/hasil-analysis-2.png";
+import manajemenTransaksiImg from "../assets/manajemen-transaksi.png";
 import {
-  FiX,
   FiCheck,
+  FiEye,
   FiFileText,
   FiAlertTriangle,
   FiBook,
-  FiTrendingDown,
   FiMonitor,
   FiPieChart,
   FiTrendingUp,
   FiZap,
   FiArrowRight,
-  FiBriefcase,
   FiTarget,
-  FiCompass,
   FiDownload,
   FiPackage,
   FiHelpCircle,
   FiGlobe,
-  FiMail,
-  FiPhone,
-  FiSend,
 } from "react-icons/fi";
 import { FaTwitter, FaLinkedin, FaInstagram, FaYoutube } from "react-icons/fa";
 
@@ -59,6 +64,8 @@ const Landing = () => {
   const [hoveredPath, setHoveredPath] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showReviewsModal, setShowReviewsModal] = useState(false);
+  const [perintisSlide, setPerintisSlide] = useState(0);
+  const [pengusahaSlide, setPengusahaSlide] = useState(0);
   const [activeSection, setActiveSection] = useState("layanan");
 
   const navItems = [
@@ -122,6 +129,22 @@ const Landing = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (hoveredPath !== "A") return;
+    const interval = setInterval(() => {
+      setPerintisSlide((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [hoveredPath]);
+
+  useEffect(() => {
+    if (hoveredPath !== "B") return;
+    const interval = setInterval(() => {
+      setPengusahaSlide((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [hoveredPath]);
 
   const testimonials = [
     {
@@ -297,7 +320,7 @@ const Landing = () => {
                   onClick={() => scrollToSection(item.id)}
                   onMouseEnter={() => setHoveredPath(item.id)}
                   onMouseLeave={() => setHoveredPath(null)}
-                  className={`relative px-4 py-2 text-[12px] font-semibold transition-all duration-300 rounded-lg ${
+                  className={`relative px-4 py-2 text-[12px] font-semibold transition-all duration-300 rounded-lg cursor-pointer ${
                     isActive
                       ? "text-indigo-300"
                       : "text-slate-400 hover:text-white"
@@ -347,7 +370,7 @@ const Landing = () => {
             {isLoggedIn ? (
               <button
                 onClick={() => navigate("/dashboard")}
-                className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-400 hover:to-purple-400 text-white px-5 py-2 rounded-xl text-[12px] font-bold transition-all active:scale-95 shadow-lg shadow-indigo-500/20 border border-indigo-400/20"
+                className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-400 hover:to-purple-400 text-white px-5 py-2 rounded-xl text-[12px] font-bold transition-all active:scale-95 shadow-lg shadow-indigo-500/20 border border-indigo-400/20 cursor-pointer"
               >
                 {t("landing.nav_dashboard")}
               </button>
@@ -355,13 +378,13 @@ const Landing = () => {
               <div className="flex items-center gap-4 lg:gap-6">
                 <Link
                   to="/login"
-                  className="text-xs font-black text-slate-400 hover:text-white transition-colors"
+                  className="text-xs font-black text-slate-400 hover:text-white transition-colors cursor-pointer"
                 >
                   {t("landing.nav_masuk")}
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#4f46e5] hover:to-[#7c3aed] text-white px-5 lg:px-7 py-2.5 md:py-3 rounded-2xl text-xs font-black transition-all active:scale-95 shadow-xl shadow-indigo-500/25 border border-white/10"
+                  className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#4f46e5] hover:to-[#7c3aed] text-white px-5 lg:px-7 py-2.5 md:py-3 rounded-2xl text-xs font-black transition-all active:scale-95 shadow-xl shadow-indigo-500/25 border border-white/10 cursor-pointer"
                 >
                   {t("landing.nav_daftar_gratis")}
                 </Link>
@@ -371,7 +394,7 @@ const Landing = () => {
             {/* Language Switcher */}
             <button 
               onClick={() => i18n.changeLanguage(i18n.language === "ID" ? "EN" : "ID")}
-              className="hidden md:flex items-center gap-1.5 bg-white/5 hover:bg-white/10 px-3 py-2 rounded-xl transition-colors border border-white/10"
+              className="hidden md:flex items-center gap-1.5 bg-white/5 hover:bg-white/10 px-3 py-2 rounded-xl transition-colors border border-white/10 cursor-pointer"
             >
               <FiGlobe className="text-slate-300" size={14} />
               <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{i18n.language || "ID"}</span>
@@ -381,7 +404,7 @@ const Landing = () => {
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+            className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 cursor-pointer"
           >
             <span
               className={`w-6 h-0.5 bg-white transition-all ${isMobileMenuOpen ? "rotate-45 translate-y-2" : ""}`}
@@ -411,7 +434,7 @@ const Landing = () => {
                     <button
                       key={item.id}
                       onClick={() => scrollToSection(item.id)}
-                      className={`text-lg font-bold text-left px-2 transition-colors ${
+                      className={`text-lg font-bold text-left px-2 transition-colors cursor-pointer ${
                         isActive
                           ? "text-indigo-400"
                           : "text-slate-300 hover:text-white"
@@ -426,7 +449,7 @@ const Landing = () => {
               {isLoggedIn ? (
                 <button
                   onClick={() => navigate("/dashboard")}
-                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white py-4 rounded-2xl font-black text-center"
+                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white py-4 rounded-2xl font-black text-center cursor-pointer"
                 >
                   {t("landing.nav_dashboard")}
                 </button>
@@ -434,13 +457,13 @@ const Landing = () => {
                 <div className="flex flex-col gap-4">
                   <Link
                     to="/login"
-                    className="text-center font-bold text-slate-300 py-2"
+                    className="text-center font-bold text-slate-300 py-2 cursor-pointer"
                   >
                     {t("landing.nav_masuk")}
                   </Link>
                   <Link
                     to="/register"
-                    className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white py-4 rounded-2xl font-black text-center"
+                    className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white py-4 rounded-2xl font-black text-center cursor-pointer"
                   >
                     {t("landing.nav_daftar_gratis")}
                   </Link>
@@ -495,7 +518,7 @@ const Landing = () => {
                   btn.style.setProperty("--mouse-x", `${x}px`);
                   btn.style.setProperty("--mouse-y", `${y}px`);
                 }}
-                className="relative w-full sm:w-auto group overflow-hidden bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-4 rounded-2xl text-base font-bold transition-colors shadow-xl shadow-indigo-500/25 flex items-center justify-center gap-2 border border-white/10"
+                className="relative w-full sm:w-auto group overflow-hidden bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-4 rounded-2xl text-base font-bold transition-colors shadow-xl shadow-indigo-500/25 flex items-center justify-center gap-2 border border-white/10 cursor-pointer"
               >
                 {/* Cursor Glow Layer */}
                 <div
@@ -528,42 +551,19 @@ const Landing = () => {
           style={{ perspective: "1400px" }}
         >
           <motion.div
-            className="relative w-full max-w-[500px] sm:max-w-[550px] lg:max-w-[600px] xl:max-w-[750px] 2xl:max-w-[900px] group cursor-pointer"
+            className="w-full max-w-[500px] sm:max-w-[550px] lg:max-w-[600px] xl:max-w-[750px] 2xl:max-w-[900px] group"
             initial={{ rotateY: -15, rotateX: 5, scale: 0.9, opacity: 0 }}
             animate={{ rotateY: -10, rotateX: 5, scale: 1, opacity: 1 }}
             whileHover={{ rotateY: 0, rotateX: 0, scale: 1.02 }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
             style={{ transformStyle: "preserve-3d" }}
           >
-            {/* Glow/Shadow behind the image */}
-            <div
-              className="absolute -inset-4 bg-gradient-to-tr from-indigo-500/40 via-purple-500/20 to-transparent blur-3xl opacity-50 group-hover:opacity-80 transition-opacity duration-500 rounded-[3rem]"
-              style={{ transform: "translateZ(-20px)" }}
-            ></div>
-
-            {/* The Screenshot Image Wrapper */}
-            <div className="relative rounded-[1.25rem] md:rounded-[1.75rem] overflow-hidden border border-white/10 bg-[#0a0f1c] shadow-[0_30px_60px_rgba(0,0,0,0.7)] group-hover:shadow-[0_40px_80px_rgba(99,102,241,0.3)] transition-all duration-500 ring-1 ring-white/5">
-              {/* Fake Mac Window Bar */}
-              <div className="absolute top-0 left-0 right-0 h-7 md:h-8 bg-[#0a0f1c]/90 backdrop-blur-md flex items-center px-3 md:px-4 gap-1.5 border-b border-white/5 z-20">
-                <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></div>
-                <div className="ml-auto text-[8px] md:text-[9px] text-slate-500 font-medium tracking-wider">
-                  {t("landing.hero_mockup_label")}
-                </div>
-                <img
-                  src={iconGeneratedReport}
-                  alt={t("landing.hero_mockup_label")}
-                  className="w-full h-auto object-cover opacity-95 group-hover:opacity-100 transition-opacity duration-500"
-                  onError={(e) => {
-                    e.target.style.display = "none";
-                    e.target.nextSibling.style.display = "flex";
-                  }}
-                />
-              </div>
-
-              {/* Glossy Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+            <div>
+              <img
+                src={heroMockup}
+                alt={t("landing.hero_mockup_label")}
+                className="w-full h-auto block rounded-[1.25rem] md:rounded-[1.75rem]"
+              />
             </div>
           </motion.div>
         </div>
@@ -599,160 +599,94 @@ const Landing = () => {
           </div>
 
           {/* Before vs After Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 relative mb-20">
-            {/* Sebelum Arta Card Wrapper */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 mb-20">
+            {/* Sebelum Arta */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="relative p-[1px] rounded-[2rem] bg-gradient-to-br from-rose-500/30 via-rose-500/5 to-transparent hover:from-rose-500/40 transition-colors duration-500"
+              className="bg-[#0b101e] rounded-2xl p-6 md:p-8 lg:p-10"
             >
-              {/* Card Content */}
-              <div className="bg-[#0b101e] rounded-[2rem] h-full p-6 md:p-8 lg:p-10 relative overflow-hidden">
-                {/* Subtle Grid Background */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20 pointer-events-none"></div>
-                <div className="absolute top-0 right-0 w-72 h-72 bg-rose-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-rose-500/10 text-rose-400 font-bold text-xs uppercase tracking-wider mb-6">
+                <FiAlertTriangle size={15} className="text-rose-400" />
+                {t("landing.before_badge")}
+              </div>
+              <h3 className="text-lg md:text-xl font-bold text-white mb-6">
+                {t("landing.before_title")}
+              </h3>
 
-                <div className="relative z-10">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-500/10 text-rose-400 font-bold text-sm mb-8 border border-rose-500/20 shadow-[0_0_20px_rgba(244,63,94,0.15)]">
-                    <FiX strokeWidth={3} className="text-rose-500" />
-                    {t("landing.before_badge")}
+              <div className="space-y-3">
+                {[
+                  { icon: iconBukuKas, text: t("landing.before_item_1") },
+                  { icon: iconNotaTransaksi, text: t("landing.before_item_2") },
+                  { icon: iconWarning, text: t("landing.before_item_3") },
+                  { icon: iconDowntrend, text: t("landing.before_item_4") },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02]"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center shrink-0 p-1.5">
+                      <img
+                        src={item.icon}
+                        alt=""
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <p className="text-slate-300 text-sm font-medium leading-relaxed pt-1">
+                      {item.text}
+                    </p>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white">
-                    {t("landing.before_title")}
-                  </h3>
-
-                  <div className="space-y-4">
-                    {[
-                      {
-                        icon: iconBukuKas,
-                        text: t("landing.before_item_1"),
-                      },
-                      {
-                        icon: iconNotaTransaksi,
-                        text: t("landing.before_item_2"),
-                      },
-                      {
-                        icon: iconWarning,
-                        text: t("landing.before_item_3"),
-                      },
-                      {
-                        icon: iconDowntrend,
-                        text: t("landing.before_item_4"),
-                      },
-                    ].map((item, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-start gap-5 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-rose-500/10 hover:border-rose-500/20 hover:scale-[1.02] transition-all duration-300 group cursor-default shadow-sm"
-                      >
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-500/20 to-rose-500/5 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-inner p-2.5">
-                          <img
-                            src={item.icon}
-                            alt=""
-                            className="w-full h-full object-contain"
-                          />
-                        </div>
-                        <p className="text-slate-300 text-sm font-medium leading-relaxed pt-1.5">
-                          {item.text}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                ))}
               </div>
             </motion.div>
 
-            {/* Decorative arrow pointing right on desktop, down on mobile */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden lg:flex w-14 h-14 bg-[#0b101e] rounded-full border border-slate-700/50 items-center justify-center shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-              <div className="w-10 h-10 bg-slate-800/80 rounded-full flex items-center justify-center border border-white/10 shadow-inner">
-                <FiArrowRight className="text-slate-400" size={20} />
-              </div>
-            </div>
-
-            {/* Dengan Arta Card Wrapper */}
+            {/* Dengan Arta */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="relative p-[1px] rounded-[2rem] bg-gradient-to-br from-emerald-500/40 via-emerald-500/5 to-transparent hover:from-emerald-500/50 transition-colors duration-500 shadow-[0_0_50px_rgba(16,185,129,0.1)]"
+              className="bg-[#0b101e] rounded-2xl p-6 md:p-8 lg:p-10"
             >
-              {/* Card Content */}
-              <div className="bg-[#0b101e] rounded-[2rem] h-full p-6 md:p-8 lg:p-10 relative overflow-hidden">
-                {/* Subtle Grid Background */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20 pointer-events-none"></div>
-                <div className="absolute top-0 right-0 w-72 h-72 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-400 font-bold text-xs uppercase tracking-wider mb-6">
+                <FiTrendingUp size={15} className="text-emerald-400" />
+                {t("landing.after_badge")}
+              </div>
+              <h3 className="text-lg md:text-xl font-bold text-white mb-6">
+                {t("landing.after_title")}
+              </h3>
 
-                <div className="relative z-10">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 text-emerald-400 font-bold text-sm mb-8 border border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.15)]">
-                    <FiCheck strokeWidth={3} className="text-emerald-500" />
-                    {t("landing.after_badge")}
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white">
-                    {t("landing.after_title")}
-                  </h3>
-
-                  <div className="space-y-4 mb-8">
-                    {[
-                      {
-                        icon: iconLaporanNeraca,
-                        text: t("landing.after_item_1"),
-                      },
-                      {
-                        icon: iconTrend,
-                        text: t("landing.after_item_2"),
-                      },
-                      {
-                        icon: iconRealTime,
-                        text: t("landing.after_item_3"),
-                      },
-                    ].map((item, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-start gap-5 p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-emerald-500/10 hover:border-emerald-500/20 hover:scale-[1.02] transition-all duration-300 group cursor-default shadow-sm"
-                      >
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 border border-emerald-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-inner mt-0.5 p-2">
-                          <img
-                            src={item.icon}
-                            alt=""
-                            className="w-full h-full object-contain"
-                          />
-                        </div>
-                        <p className="text-emerald-50/90 text-sm font-medium leading-relaxed pt-1">
-                          {item.text}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Image Preview - Enhanced */}
-                  <div className="rounded-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.4)] overflow-hidden relative group bg-[#0b101e] mt-6 ring-1 ring-white/5 transform transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_30px_60px_rgba(16,185,129,0.2)]">
-                    {/* Fake Window Controls */}
-                    <div className="bg-[#111827]/90 backdrop-blur-md px-4 py-2.5 border-b border-white/5 flex items-center gap-1.5 z-20 absolute top-0 left-0 right-0">
-                      <div className="w-2 h-2 rounded-full bg-rose-500/80"></div>
-                      <div className="w-2 h-2 rounded-full bg-amber-500/80"></div>
-                      <div className="w-2 h-2 rounded-full bg-emerald-500/80"></div>
-                      <div className="ml-auto text-[8px] text-slate-500 font-medium tracking-wider">
-                        {t("landing.after_mockup_label")}
-                      </div>
-                    </div>
-
-                    {/* The Image */}
-                    <div className="pt-8 relative bg-[#0b101e]">
+              <div className="space-y-3 mb-8">
+                {[
+                  { icon: iconLaporanNeraca, text: t("landing.after_item_1") },
+                  { icon: iconTrend, text: t("landing.after_item_2") },
+                  { icon: iconRealTime, text: t("landing.after_item_3") },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02]"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0 p-1.5">
                       <img
-                        src="/cashbook.jpg"
-                        alt="Digital Cashbook Preview"
-                        className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
-                        onError={(e) => {
-                          e.target.style.display = "none";
-                          e.target.nextSibling.style.display = "flex";
-                        }}
+                        src={item.icon}
+                        alt=""
+                        className="w-full h-full object-contain"
                       />
                     </div>
-
-                    {/* Glossy Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-30"></div>
+                    <p className="text-emerald-50/90 text-sm font-medium leading-relaxed pt-1">
+                      {item.text}
+                    </p>
                   </div>
-                </div>
+                ))}
+              </div>
+
+              {/* Image Preview */}
+              <div className="rounded-xl border border-white/5 overflow-hidden bg-[#0b101e]">
+                  <img
+                    src={manajemenTransaksiImg}
+                    alt="Manajemen Transaksi"
+                    className="w-full h-auto"
+                  />
               </div>
             </motion.div>
           </div>
@@ -971,315 +905,163 @@ const Landing = () => {
           </div>
 
           {/* Steps */}
-          <div className="relative">
-            {/* Vertical connecting line */}
-            <div className="absolute left-6 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-gradient-to-b from-indigo-500/30 via-emerald-500/20 to-violet-500/20 hidden md:block"></div>
-
+          <div className="space-y-24">
             {/* Step 1: Daftar Akun */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="relative flex flex-col md:flex-row items-center gap-8 md:gap-16 mb-16 md:mb-20"
+              className="flex flex-col md:flex-row items-start gap-8 md:gap-16"
             >
-              {/* Left content */}
-              <div className="flex-1 md:text-right">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[9px] font-bold text-indigo-400 uppercase tracking-widest mb-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></div>
-                  {t("landing.step_01")}
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="w-7 h-7 rounded-full bg-indigo-500/10 text-indigo-400 text-[11px] font-black flex items-center justify-center">1</span>
+                  <span className="text-[11px] font-bold text-indigo-400 uppercase tracking-widest">{t("landing.step_01")}</span>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-black text-white mb-3">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
                   {t("landing.step_01_title")}
                 </h3>
-                <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-md md:ml-auto">
+                <p className="text-sm text-slate-400 leading-relaxed max-w-md">
                   {t("landing.step_01_desc")}
                 </p>
               </div>
-              {/* Center dot */}
-              <div className="hidden md:flex w-10 h-10 rounded-full bg-indigo-500 items-center justify-center shrink-0 shadow-lg shadow-indigo-500/30 z-10">
-                <span className="text-white text-xs font-black">1</span>
-              </div>
-              {/* Right visual - Login page mockup */}
-              <div className="flex-1 flex justify-start">
-                <div className="relative overflow-hidden bg-white rounded-2xl p-5 w-[280px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.4)] border border-slate-100/50">
-                  {/* Top gradient */}
-                  <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-indigo-50/50 to-transparent pointer-events-none"></div>
-
-                  {/* Logo + Title */}
-                  <div className="flex flex-col items-center mb-4 relative z-10">
-                    <img
-                      src={logoImg}
-                      alt="Arta"
-                      className="h-10 w-auto mb-2"
-                    />
-                    <h4 className="text-sm font-extrabold text-slate-800">
-                      Welcome Back!
-                    </h4>
-                    <p className="text-[9px] text-slate-400 mt-0.5">
-                      Sign in to manage your finances
-                    </p>
+              <div className="flex-1 w-full max-w-sm">
+                <div className="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
+                  <div className="flex flex-col items-center mb-5">
+                    <img src={logo2Img} alt="Arta" className="h-16 w-auto mb-2" />
+                    <span className="text-lg font-black tracking-[0.25em] text-slate-800">ARTA</span>
+                    <div className="mt-3 flex items-center gap-2">
+                      <div className="h-px w-10 bg-gradient-to-r from-transparent to-slate-200" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+                      <div className="h-px w-10 bg-gradient-to-l from-transparent to-slate-200" />
+                    </div>
+                    <h1 className="text-lg font-extrabold text-slate-800 mt-4">Welcome Back!</h1>
+                    <p className="text-[11px] text-slate-400 mt-1 text-center max-w-[220px] font-medium">Sign in to continue managing your UMKM finances efficiently.</p>
                   </div>
-
-                  {/* Form */}
-                  <div className="space-y-2 mb-3 relative z-10">
+                  <div className="space-y-3">
                     <div>
-                      <span className="text-[8px] font-semibold text-slate-500 ml-0.5 block mb-0.5">
-                        Email
-                      </span>
-                      <div className="h-8 bg-slate-50 border border-slate-100 rounded-lg flex items-center px-3 text-[9px] text-slate-400">
-                        Input your email
-                      </div>
+                      <label className="block text-[10px] font-semibold text-slate-600 ml-1 mb-1">Email</label>
+                      <input type="email" className="w-full px-3 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[11px] placeholder:text-slate-400 outline-none" placeholder="Input your email" readOnly />
                     </div>
                     <div>
-                      <span className="text-[8px] font-semibold text-slate-500 ml-0.5 block mb-0.5">
-                        Password
-                      </span>
-                      <div className="h-8 bg-slate-50 border border-slate-100 rounded-lg flex items-center px-3 text-[9px] text-slate-400">
-                        ••••••••
+                      <label className="block text-[10px] font-semibold text-slate-600 ml-1 mb-1">Password</label>
+                      <div className="relative">
+                        <input type="password" className="w-full px-3 py-2.5 pr-9 bg-slate-50 border border-slate-100 rounded-xl text-[11px] placeholder:text-slate-400 outline-none" placeholder="Input your password" readOnly />
+                        <FiEye size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
                       </div>
                     </div>
+                    <button type="button" className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white font-bold py-3 rounded-xl shadow-xl shadow-indigo-500/25 text-[11px] cursor-pointer">Sign In</button>
                   </div>
-
-                  {/* Sign In */}
-                  <div className="h-8 bg-gradient-to-r from-orange-400 to-orange-500 rounded-lg flex items-center justify-center text-[10px] font-bold text-white shadow-sm shadow-orange-500/20 mb-3 relative z-10">
-                    Sign In
-                  </div>
-
-                  {/* Divider */}
-                  <div className="relative flex items-center justify-center mb-2.5">
+                  <div className="relative flex items-center justify-center my-3">
                     <div className="w-full h-px bg-slate-100"></div>
-                    <span className="absolute bg-white px-2 text-[7px] text-slate-400">
-                      or continue with
-                    </span>
+                    <span className="absolute bg-white px-2 text-[9px] text-slate-400 font-medium">or continue with</span>
                   </div>
-
-                  {/* Social */}
-                  <div className="flex gap-2 mb-2.5">
-                    <div className="flex-1 h-7 border border-slate-200 rounded-lg flex items-center justify-center gap-1 text-[9px] font-semibold text-slate-600">
-                      <svg className="w-2.5 h-2.5" viewBox="0 0 24 24">
-                        <path
-                          d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
-                          fill="#4285F4"
-                        />
-                        <path
-                          d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                          fill="#34A853"
-                        />
-                        <path
-                          d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                          fill="#FBBC05"
-                        />
-                        <path
-                          d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                          fill="#EA4335"
-                        />
-                      </svg>
-                      Google
-                    </div>
-                    <div className="flex-1 h-7 border border-slate-200 rounded-lg flex items-center justify-center gap-1 text-[9px] font-semibold text-slate-600">
-                      <svg
-                        className="w-2.5 h-2.5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                      </svg>
-                      Apple
-                    </div>
-                  </div>
-
-                  {/* Bottom */}
-                  <p className="text-center text-[8px] text-slate-400">
-                    Don't have an account?{" "}
-                    <span className="font-bold text-slate-700">Sign Up</span>
-                  </p>
+                  <button type="button" className="w-full flex items-center justify-center gap-2 py-2.5 border border-[#dadce0] rounded-xl text-[11px] font-medium text-[#3c4043] hover:bg-[#f8f9fa] transition-colors cursor-pointer">
+                    <svg viewBox="0 0 48 48" className="w-4 h-4"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 0 1 9.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 0 0 0 24c0 3.77.87 7.35 2.56 10.59l7.97-6z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                    Sign in with Google
+                  </button>
+                  <p className="text-center text-[10px] text-slate-500 mt-3">Don't have an account? <span className="font-bold text-slate-700">Sign Up</span></p>
                 </div>
               </div>
             </motion.div>
 
             {/* Step 2: Onboarding Adaptif */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="relative flex flex-col md:flex-row-reverse items-start gap-8 md:gap-16 mb-16 md:mb-20"
+              className="flex flex-col md:flex-row items-start gap-8 md:gap-16"
             >
-              {/* Right content */}
               <div className="flex-1">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-[9px] font-bold text-orange-400 uppercase tracking-widest mb-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></div>
-                  {t("landing.step_02")}
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="w-7 h-7 rounded-full bg-emerald-500/10 text-emerald-400 text-[11px] font-black flex items-center justify-center">2</span>
+                  <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-widest">{t("landing.step_02")}</span>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-black text-white mb-3">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
                   {t("landing.step_02_title")}
                 </h3>
-                <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-md">
+                <p className="text-sm text-slate-400 leading-relaxed max-w-md">
                   {t("landing.step_02_desc")}
                 </p>
               </div>
-              {/* Center dot */}
-              <div className="hidden md:flex w-10 h-10 rounded-full bg-orange-500 items-center justify-center shrink-0 shadow-lg shadow-orange-500/30 z-10">
-                <span className="text-white text-xs font-black">2</span>
-              </div>
-              {/* Left visual */}
-              <div className="flex-1 md:flex md:justify-end">
-                <div className="max-w-sm w-full space-y-3">
-                  <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5 hover:border-emerald-500/30 transition-colors duration-300 group cursor-default">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                        <FiBriefcase size={18} className="text-emerald-400" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-white">
-                          {t("landing.step_02_option_1")}
-                        </h4>
-                        <p className="text-[11px] text-slate-500">
-                          {t("landing.step_02_option_1_desc")}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5 hover:border-violet-500/30 transition-colors duration-300 group cursor-default">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center shrink-0">
-                        <FiCompass size={18} className="text-violet-400" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-white">
-                          {t("landing.step_02_option_2")}
-                        </h4>
-                        <p className="text-[11px] text-slate-500">
-                          {t("landing.step_02_option_2_desc")}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+              <div className="flex-1 w-full max-w-sm space-y-2">
+                <div className="bg-white/[0.02] rounded-xl p-4 border border-white/[0.04]">
+                  <h4 className="text-sm font-bold text-white">{t("landing.step_02_option_1")}</h4>
+                  <p className="text-xs text-slate-500 mt-0.5">{t("landing.step_02_option_1_desc")}</p>
+                </div>
+                <div className="bg-white/[0.02] rounded-xl p-4 border border-white/[0.04]">
+                  <h4 className="text-sm font-bold text-white">{t("landing.step_02_option_2")}</h4>
+                  <p className="text-xs text-slate-500 mt-0.5">{t("landing.step_02_option_2_desc")}</p>
                 </div>
               </div>
             </motion.div>
 
             {/* Step 3: Main Dashboard */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="relative flex flex-col md:flex-row items-start gap-8 md:gap-16 mb-16 md:mb-20"
+              className="flex flex-col md:flex-row items-start gap-8 md:gap-16"
             >
-              {/* Left content */}
-              <div className="flex-1 md:text-right">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[9px] font-bold text-emerald-400 uppercase tracking-widest mb-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-                  {t("landing.step_03")}
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="w-7 h-7 rounded-full bg-blue-500/10 text-blue-400 text-[11px] font-black flex items-center justify-center">3</span>
+                  <span className="text-[11px] font-bold text-blue-400 uppercase tracking-widest">{t("landing.step_03")}</span>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-black text-white mb-3">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
                   {t("landing.step_03_title")}
                 </h3>
-                <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-md md:ml-auto">
+                <p className="text-sm text-slate-400 leading-relaxed max-w-md">
                   {t("landing.step_03_desc")}
                 </p>
               </div>
-              {/* Center dot */}
-              <div className="hidden md:flex w-10 h-10 rounded-full bg-emerald-500 items-center justify-center shrink-0 shadow-lg shadow-emerald-500/30 z-10">
-                <span className="text-white text-xs font-black">3</span>
-              </div>
-              {/* Right visual - feature pills */}
-              <div className="flex-1">
-                <div className="grid grid-cols-2 gap-3 max-w-sm">
+              <div className="flex-1 w-full max-w-sm">
+                <div className="grid grid-cols-2 gap-2">
                   {[
-                    {
-                      name: t("landing.step_03_cashbook"),
-                      desc: t("landing.step_03_cashbook_desc"),
-                      color: "emerald",
-                    },
-                    {
-                      name: t("landing.step_03_reports"),
-                      desc: t("landing.step_03_reports_desc"),
-                      color: "blue",
-                    },
-                    {
-                      name: t("landing.step_03_forecast"),
-                      desc: t("landing.step_03_forecast_desc"),
-                      color: "violet",
-                    },
-                    {
-                      name: t("landing.step_03_consult"),
-                      desc: t("landing.step_03_consult_desc"),
-                      color: "amber",
-                    },
-                  ].map((f, i) => {
-                    const colors = {
-                      emerald:
-                        "bg-emerald-500/10 border-emerald-500/20 text-emerald-400",
-                      blue: "bg-blue-500/10 border-blue-500/20 text-blue-400",
-                      violet:
-                        "bg-violet-500/10 border-violet-500/20 text-violet-400",
-                      amber:
-                        "bg-amber-500/10 border-amber-500/20 text-amber-400",
-                    };
-                    return (
-                      <div
-                        key={i}
-                        className={`${colors[f.color]} border rounded-xl p-4 hover:scale-[1.03] transition-transform duration-200 cursor-default`}
-                      >
-                        <h4 className="text-xs font-bold mb-1">{f.name}</h4>
-                        <p className="text-[10px] text-slate-500 leading-relaxed">
-                          {f.desc}
-                        </p>
-                      </div>
-                    );
-                  })}
+                    { name: t("landing.step_03_cashbook"), desc: t("landing.step_03_cashbook_desc") },
+                    { name: t("landing.step_03_reports"), desc: t("landing.step_03_reports_desc") },
+                    { name: t("landing.step_03_forecast"), desc: t("landing.step_03_forecast_desc") },
+                    { name: t("landing.step_03_recommendation"), desc: t("landing.step_03_recommendation_desc") },
+                  ].map((f, i) => (
+                    <div key={i} className="bg-white/[0.02] rounded-xl p-4 border border-white/[0.04]">
+                      <h4 className="text-xs font-bold text-white mb-1">{f.name}</h4>
+                      <p className="text-[10px] text-slate-500 leading-relaxed">{f.desc}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </motion.div>
 
             {/* Step 4: Pantau & Kembangkan */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="relative flex flex-col md:flex-row-reverse items-start gap-8 md:gap-16"
+              className="flex flex-col md:flex-row items-start gap-8 md:gap-16"
             >
-              {/* Right content */}
               <div className="flex-1">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-[9px] font-bold text-violet-400 uppercase tracking-widest mb-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></div>
-                  {t("landing.step_04")}
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="w-7 h-7 rounded-full bg-violet-500/10 text-violet-400 text-[11px] font-black flex items-center justify-center">4</span>
+                  <span className="text-[11px] font-bold text-violet-400 uppercase tracking-widest">{t("landing.step_04")}</span>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-black text-white mb-3">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
                   {t("landing.step_04_title")}
                 </h3>
-                <p className="text-slate-400 text-sm md:text-base leading-relaxed max-w-md">
+                <p className="text-sm text-slate-400 leading-relaxed max-w-md">
                   {t("landing.step_04_desc")}
                 </p>
               </div>
-              {/* Center dot */}
-              <div className="hidden md:flex w-10 h-10 rounded-full bg-violet-500 items-center justify-center shrink-0 shadow-lg shadow-violet-500/30 z-10">
-                <span className="text-white text-xs font-black">4</span>
-              </div>
-              {/* Left visual */}
-              <div className="flex-1 md:flex md:justify-end">
-                <div className="max-w-sm w-full space-y-3">
-                  {[
-                    { label: t("landing.step_04_profile_account"), desc: t("landing.step_04_profile_account_desc") },
-                    { label: t("landing.step_04_profile_business"), desc: t("landing.step_04_profile_business_desc") },
-                    { label: t("landing.step_04_notifications"), desc: t("landing.step_04_notifications_desc") },
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-4 bg-white/[0.03] border border-white/[0.06] rounded-xl px-5 py-3.5 hover:border-violet-500/30 transition-colors duration-300"
-                    >
-                      <div className="w-2 h-2 rounded-full bg-violet-400 shrink-0"></div>
-                      <div>
-                        <span className="text-sm font-bold text-white">
-                          {item.label}
-                        </span>
-                        <span className="text-xs text-slate-500 ml-2">
-                          {item.desc}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              <div className="flex-1 w-full max-w-sm space-y-2">
+                {[
+                  { label: t("landing.step_04_profile_account"), desc: t("landing.step_04_profile_account_desc") },
+                  { label: t("landing.step_04_profile_business"), desc: t("landing.step_04_profile_business_desc") },
+                  { label: t("landing.step_04_notifications"), desc: t("landing.step_04_notifications_desc") },
+                ].map((item, i) => (
+                  <div key={i} className="bg-white/[0.02] rounded-xl p-4 border border-white/[0.04]">
+                    <h4 className="text-sm font-bold text-white">{item.label}</h4>
+                    <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
+                  </div>
+                ))}
               </div>
             </motion.div>
           </div>
@@ -1422,124 +1204,74 @@ const Landing = () => {
                   className={`absolute -bottom-16 -left-16 w-56 h-56 blur-[80px] rounded-full transition-colors duration-[1200ms] ${hoveredPath === "A" ? "bg-blue-500/15" : "bg-teal-500/15"}`}
                 ></div>
 
-                {/* MOCKUP A: KUESIONER */}
+                {/* MOCKUP A: PERINTIS - Kuesioner & Hasil AI */}
                 <div
-                  className={`absolute inset-0 pt-14 px-5 flex flex-col transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${hoveredPath === "A" ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"}`}
+                  className={`absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden ${hoveredPath === "A" ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"}`}
                 >
-                  <div className="flex items-center gap-2 mb-6 bg-white/5 w-max px-3 py-1.5 rounded-full border border-white/10">
-                    <div className="p-1 bg-indigo-500/20 rounded-full">
-                      <FiTarget className="text-indigo-400" size={12} />
-                    </div>
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-indigo-200">
-                      Arta AI Profiling
-                    </span>
+                  <AnimatePresence mode="popLayout">
+                    <motion.div
+                      key={perintisSlide}
+                      initial={{ x: "100%" }}
+                      animate={{ x: 0 }}
+                      exit={{ x: "-100%" }}
+                      transition={{ type: "spring", stiffness: 120, damping: 20 }}
+                      className="absolute inset-0"
+                    >
+                      <img
+                        src={[kuesioner1Img, hasilAnalisis1Img, hasilAnalisis2Img][perintisSlide]}
+                        alt="Slide"
+                        className="w-full h-full object-contain"
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                  {/* Dots indicator */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                    {[0, 1, 2].map((i) => (
+                      <button
+                        key={i}
+                        onClick={() => setPerintisSlide(i)}
+                        className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                          perintisSlide === i
+                            ? "bg-white w-4"
+                            : "bg-white/40"
+                        }`}
+                      />
+                    ))}
                   </div>
-                  <p className="text-white text-lg font-bold mb-6 leading-snug">
-                    Berapa perkiraan
-                    <br />
-                    modal awal usahamu?
-                  </p>
-                  <div className="space-y-3 mb-auto">
-                    <div className="px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-600/20 to-indigo-500/5 border border-indigo-500/40 text-indigo-200 font-bold flex items-center justify-between relative overflow-hidden">
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-indigo-400"></div>
-                      <span className="text-sm">Rp 1 Jt - Rp 5 Jt</span>
-                      <div className="w-4 h-4 rounded-full border-2 border-indigo-400 flex items-center justify-center">
-                        <div className="w-2 h-2 bg-indigo-400 rounded-full"></div>
-                      </div>
-                    </div>
-                    <div className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-slate-400 font-medium flex items-center justify-between">
-                      <span className="text-sm">Rp 5 Jt - Rp 20 Jt</span>
-                      <div className="w-4 h-4 rounded-full border-2 border-slate-600"></div>
-                    </div>
-                    <div className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-slate-400 font-medium flex items-center justify-between">
-                      <span className="text-sm">Di atas Rp 20 Jt</span>
-                      <div className="w-4 h-4 rounded-full border-2 border-slate-600"></div>
-                    </div>
-                  </div>
-                  <button className="w-full py-3 mt-4 mb-6 bg-white text-indigo-950 font-black rounded-xl text-sm flex justify-center items-center gap-2">
-                    Lanjutkan <FiArrowRight size={14} />
-                  </button>
                 </div>
 
-                {/* MOCKUP B: DASHBOARD */}
+                {/* MOCKUP B: PENGUSAHA - Profil Bisnis & Dashboard */}
                 <div
-                  className={`absolute inset-0 pt-14 px-5 flex flex-col transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${hoveredPath === "B" ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-8 pointer-events-none"}`}
+                  className={`absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden ${hoveredPath === "B" ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-8 pointer-events-none"}`}
                 >
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-[10px] font-bold tracking-widest uppercase text-slate-400 flex items-center gap-2">
-                      <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse inline-block"></span>{" "}
-                      Digital Cashbook
-                    </span>
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-300 p-[2px]">
-                      <div className="w-full h-full bg-slate-900 rounded-full flex items-center justify-center">
-                        <span className="text-[8px] text-white font-bold">
-                          Us
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mb-6 p-4 rounded-xl bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-3 opacity-20">
-                      <FiTrendingUp size={36} className="text-emerald-500" />
-                    </div>
-                    <p className="text-[9px] font-bold uppercase tracking-wider text-emerald-400 mb-1 relative z-10">
-                      Laba Bersih Mei
-                    </p>
-                    <p className="text-2xl font-black text-white mb-1 relative z-10">
-                      Rp 4.250
-                      <span className="text-slate-400 text-lg">.000</span>
-                    </p>
-                    <div className="inline-flex items-center gap-1 text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded text-[9px] font-bold relative z-10">
-                      <FiTrendingUp size={9} /> +24%
-                    </div>
-                  </div>
-                  <p className="text-[10px] font-bold text-slate-500 mb-3 uppercase tracking-wider">
-                    Transaksi Terbaru
-                  </p>
-                  <div className="space-y-2 mb-auto">
-                    {[
-                      {
-                        label: "Invoice Client A",
-                        val: "+Rp 2.400k",
-                        isPos: true,
-                        Icon: FiDownload,
-                      },
-                      {
-                        label: "Bahan Baku",
-                        val: "-Rp 650k",
-                        isPos: false,
-                        Icon: FiPackage,
-                      },
-                      {
-                        label: "Langganan SaaS",
-                        val: "-Rp 150k",
-                        isPos: false,
-                        Icon: FiMonitor,
-                      },
-                    ].map((item, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/[0.02] border border-white/5"
-                      >
-                        <div
-                          className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.isPos ? "bg-emerald-500/10" : "bg-rose-500/10"}`}
-                        >
-                          <item.Icon
-                            size={13}
-                            className={
-                              item.isPos ? "text-emerald-400" : "text-rose-400"
-                            }
-                          />
-                        </div>
-                        <span className="text-slate-200 text-xs font-medium flex-1">
-                          {item.label}
-                        </span>
-                        <span
-                          className={`text-xs font-bold ${item.isPos ? "text-emerald-400" : "text-rose-400"}`}
-                        >
-                          {item.val}
-                        </span>
-                      </div>
+                  <AnimatePresence mode="popLayout">
+                    <motion.div
+                      key={pengusahaSlide}
+                      initial={{ x: "100%" }}
+                      animate={{ x: 0 }}
+                      exit={{ x: "-100%" }}
+                      transition={{ type: "spring", stiffness: 120, damping: 20 }}
+                      className="absolute inset-0"
+                    >
+                      <img
+                        src={[onboarding1Img, onboarding2Img, onboarding3Img][pengusahaSlide]}
+                        alt="Slide"
+                        className="w-full h-full object-contain"
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                  {/* Dots indicator */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                    {[0, 1, 2].map((i) => (
+                      <button
+                        key={i}
+                        onClick={() => setPengusahaSlide(i)}
+                        className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                          pengusahaSlide === i
+                            ? "bg-white w-4"
+                            : "bg-white/40"
+                        }`}
+                      />
                     ))}
                   </div>
                 </div>
@@ -1745,7 +1477,7 @@ const Landing = () => {
           <div className="flex justify-center">
             <button
               onClick={() => setShowReviewsModal(true)}
-              className="px-10 py-4 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] rounded-full text-sm font-bold text-white backdrop-blur-xl transition-all pointer-events-auto"
+              className="px-10 py-4 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] rounded-full text-sm font-bold text-white backdrop-blur-xl transition-all pointer-events-auto cursor-pointer"
             >
               {t("landing.testi_read_all")}
             </button>
@@ -1792,16 +1524,6 @@ const Landing = () => {
                 </motion.p>
               </div>
               {/* Category count */}
-              <div className="hidden md:flex items-center gap-6 text-sm text-slate-500 shrink-0">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-indigo-400"></div>
-                  <span>{t("landing.faq_categories")}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-slate-600"></div>
-                  <span>{t("landing.faq_questions")}</span>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -1862,7 +1584,7 @@ const Landing = () => {
                               block: "start",
                             });
                         }}
-                        className="w-full text-left px-4 py-3 rounded-xl text-sm font-semibold text-slate-400 hover:text-white hover:bg-white/[0.05] transition-all duration-200"
+                        className="w-full text-left px-4 py-3 rounded-xl text-sm font-semibold text-slate-400 hover:text-white hover:bg-white/[0.05] transition-all duration-200 cursor-pointer"
                       >
                         {cat.category}
                       </button>
@@ -1958,15 +1680,13 @@ const Landing = () => {
               {/* Contact Info Items */}
               <div className="flex flex-wrap items-center gap-x-10 gap-y-4 mb-14">
                 <motion.a
-                  href="mailto:contact@konsulkeu.id"
+                  href="mailto:contact@arta.id"
                   whileHover={{ scale: 1.03 }}
                   className="flex items-center gap-3 text-slate-300 hover:text-white transition-colors group"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center group-hover:bg-indigo-500/20 group-hover:border-indigo-500/40 transition-all">
-                    <FiMail size={16} className="text-indigo-400" />
-                  </div>
+                  <img src={iconEmail} alt="email" className="w-5 h-5 object-contain" />
                   <span className="text-sm font-semibold">
-                    contact@konsulkeu.id
+                    contact@arta.id
                   </span>
                 </motion.a>
                 <motion.a
@@ -1974,23 +1694,19 @@ const Landing = () => {
                   whileHover={{ scale: 1.03 }}
                   className="flex items-center gap-3 text-slate-300 hover:text-white transition-colors group"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center group-hover:bg-emerald-500/20 group-hover:border-emerald-500/40 transition-all">
-                    <FiPhone size={16} className="text-emerald-400" />
-                  </div>
+                  <img src={iconPhone} alt="phone" className="w-5 h-5 object-contain" />
                   <span className="text-sm font-semibold">
                     +62 (812) 3456 7890
                   </span>
                 </motion.a>
                 <motion.a
-                  href="mailto:support@konsulkeu.id"
+                  href="https://arta.id"
                   whileHover={{ scale: 1.03 }}
                   className="flex items-center gap-3 text-slate-300 hover:text-white transition-colors group"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center group-hover:bg-purple-500/20 group-hover:border-purple-500/40 transition-all">
-                    <FiSend size={16} className="text-purple-400" />
-                  </div>
+                  <img src={iconWeb} alt="web" className="w-5 h-5 object-contain" />
                   <span className="text-sm font-semibold">
-                    support@gmail.com
+                    arta.id
                   </span>
                 </motion.a>
               </div>
@@ -2279,7 +1995,7 @@ const Landing = () => {
                     btn.style.setProperty("--btn-x", `${x}px`);
                     btn.style.setProperty("--btn-y", `${y}px`);
                   }}
-                  className="relative w-full overflow-hidden bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white py-4 rounded-2xl text-sm font-black transition-all shadow-xl shadow-indigo-600/20 border border-white/10 group"
+                  className="relative w-full overflow-hidden bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white py-4 rounded-2xl text-sm font-black transition-all shadow-xl shadow-indigo-600/20 border border-white/10 group cursor-pointer"
                 >
                   {/* Cursor Glow */}
                   <div
@@ -2336,7 +2052,7 @@ const Landing = () => {
                 </div>
                 <button
                   onClick={() => setShowReviewsModal(false)}
-                  className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white transition-all group"
+                  className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white transition-all group cursor-pointer"
                 >
                   <span className="text-2xl group-hover:rotate-90 transition-transform duration-300">
                     ✕
@@ -2398,7 +2114,7 @@ const Landing = () => {
                 <div className="absolute inset-0 bg-indigo-500/30 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
                 <img
                   src={logo2Img}
-                  alt="Artha Logo"
+                  alt="Arta Logo"
                   className="h-12 md:h-14 w-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:scale-105 group-hover:drop-shadow-[0_0_25px_rgba(99,102,241,0.5)] transition-all duration-300 relative z-10"
                 />
               </div>
@@ -2437,7 +2153,7 @@ const Landing = () => {
                   <li key={item.id}>
                     <button
                       onClick={() => scrollToSection(item.id)}
-                      className="text-slate-400 hover:text-indigo-400 transition-colors font-medium"
+                      className="text-slate-400 hover:text-indigo-400 transition-colors font-medium cursor-pointer"
                     >
                       {item.name}
                     </button>

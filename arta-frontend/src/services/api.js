@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   // Gunakan variabel environment yang konsisten
-  baseURL: import.meta.env.VITE_API_BASE_URL || "https://arta-backend-nine.vercel.app",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "",
   headers: {
     "Content-Type": "application/json",
   },

@@ -1,10 +1,10 @@
-# 🚀 Arta API — Backend
+# Arta API — Backend
 
 Backend resmi platform **Arta**, sistem pengelolaan keuangan UMKM berbasis **Node.js + Express + Supabase**. Menyediakan REST API lengkap untuk autentikasi, pencatatan transaksi multi-tenant, AI forecasting arus kas, laporan keuangan, hingga analisis kelayakan bisnis berbasis AI.
 
 ---
 
-## 🌐 Base URL (Production)
+## Base URL (Production)
 
 ```
 https://arta-backend-nine.vercel.app/api
@@ -12,7 +12,7 @@ https://arta-backend-nine.vercel.app/api
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Teknologi |
 |---|---|
@@ -27,7 +27,7 @@ https://arta-backend-nine.vercel.app/api
 
 ---
 
-## 📂 Struktur Proyek
+## Struktur Proyek
 
 ```
 backend/
@@ -59,7 +59,7 @@ backend/
 
 ---
 
-## ⚡ Menjalankan Secara Lokal
+## Menjalankan Secara Lokal
 
 ### 1. Clone Repository
 
@@ -100,7 +100,7 @@ npm start
 
 ---
 
-## 🔐 Autentikasi
+## Autentikasi
 
 Semua endpoint yang terproteksi membutuhkan JWT Token pada header:
 
@@ -110,9 +110,9 @@ Authorization: Bearer <token_dari_login>
 
 ---
 
-## 📖 API Endpoints
+## API Endpoints
 
-### 1. 🔑 Auth & Verifikasi (Public)
+### 1. Auth & Verifikasi (Public)
 
 | Method | Endpoint | Deskripsi |
 |---|---|---|
@@ -148,7 +148,7 @@ POST /api/auth/login
 
 ---
 
-### 2. 🌐 Google OAuth (Frontend)
+### 2. Google OAuth (Frontend)
 
 Login Google dilakukan langsung dari frontend menggunakan Supabase SDK:
 
@@ -161,7 +161,7 @@ const { data, error } = await supabase.auth.signInWithOAuth({
 
 ---
 
-### 3. 💰 Transaksi *(Protected — Multi-Tenant)*
+### 3. Transaksi *(Protected — Multi-Tenant)*
 
 | Method | Endpoint | Deskripsi |
 |---|---|---|
@@ -174,7 +174,7 @@ const { data, error } = await supabase.auth.signInWithOAuth({
 
 ---
 
-### 4. 👤 Profil & Onboarding *(Protected)*
+### 4. Profil & Onboarding *(Protected)*
 
 | Method | Endpoint | Deskripsi |
 |---|---|---|
@@ -185,7 +185,7 @@ const { data, error } = await supabase.auth.signInWithOAuth({
 
 ---
 
-### 5. 👥 Manajemen User *(Protected)*
+### 5. Manajemen User *(Protected)*
 
 | Method | Endpoint | Deskripsi |
 |---|---|---|
@@ -196,7 +196,7 @@ const { data, error } = await supabase.auth.signInWithOAuth({
 
 ---
 
-### 6. 🏢 Business Settings *(Protected)*
+### 6. Business Settings *(Protected)*
 
 | Method | Endpoint | Deskripsi |
 |---|---|---|
@@ -204,7 +204,7 @@ const { data, error } = await supabase.auth.signInWithOAuth({
 
 ---
 
-### 7. 🤖 Feasibility Test & Prediksi AI *(Protected)*
+### 7. Feasibility Test & Prediksi AI *(Protected)*
 
 | Method | Endpoint | Deskripsi |
 |---|---|---|
@@ -228,7 +228,7 @@ const { data, error } = await supabase.auth.signInWithOAuth({
 
 ---
 
-### 8. 📊 Dashboard Overview *(Protected)*
+### 8. Dashboard Overview *(Protected)*
 
 | Method | Endpoint | Deskripsi |
 |---|---|---|
@@ -236,7 +236,7 @@ const { data, error } = await supabase.auth.signInWithOAuth({
 
 ---
 
-### 9. 📈 AI Forecasting *(Protected)*
+### 9. AI Forecasting *(Protected)*
 
 | Method | Endpoint | Deskripsi |
 |---|---|---|
@@ -258,7 +258,7 @@ const { data, error } = await supabase.auth.signInWithOAuth({
 
 ---
 
-### 10. 📑 Laporan Keuangan *(Protected)*
+### 10. Laporan Keuangan *(Protected)*
 
 | Method | Endpoint | Deskripsi |
 |---|---|---|
@@ -266,7 +266,7 @@ const { data, error } = await supabase.auth.signInWithOAuth({
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 Proyek ini di-deploy ke **Vercel**. Pastikan environment variables sudah dikonfigurasi di dashboard Vercel sebelum deploy.
 
@@ -276,6 +276,6 @@ vercel --prod
 
 ---
 
-## 📄 Lisensi
+## Lisensi
 
 MIT License © 2026 Arta API Services

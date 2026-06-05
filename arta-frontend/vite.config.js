@@ -9,7 +9,7 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      "/api/profile/sync-business": {
+      "/api/profile": {
         target: "http://localhost:5001",
         changeOrigin: true,
       },
@@ -17,10 +17,42 @@ export default defineConfig({
         target: "http://localhost:5001",
         changeOrigin: true,
       },
-      "/api": {
+      "/api/auth": {
+        target: "http://localhost:5001",
+        changeOrigin: true,
+      },
+      "/api/business": {
+        target: "http://localhost:5001",
+        changeOrigin: true,
+      },
+      "/api/dashboard": {
         target: "https://arta-backend-nine.vercel.app",
         changeOrigin: true,
         secure: false,
+      },
+      "/api/transactions": {
+        target: "https://arta-backend-nine.vercel.app",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/api/reports": {
+        target: "https://arta-backend-nine.vercel.app",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/api/forecast": {
+        target: "https://arta-backend-nine.vercel.app",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/api/feasibility-tests": {
+        target: "https://arta-backend-nine.vercel.app",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/api/health": {
+        target: "http://localhost:5001",
+        changeOrigin: true,
       },
     },
   },

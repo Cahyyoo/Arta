@@ -434,15 +434,15 @@ export default function Reports() {
                   {formatRupiah(metrics.expense)}
                 </h3>
                 <div className="flex flex-wrap items-center gap-1 mt-1 sm:mt-2">
-                  <span className={`text-[10px] sm:text-xs font-medium ${trends.expenseUp ? 'text-rose-500' : 'text-emerald-500'}`}>
+                  <span className={`text-[10px] sm:text-xs font-medium ${!trends.expenseUp ? 'text-rose-500' : 'text-emerald-500'}`}>
                     {trends.expense}
                   </span>
                   <span className="text-[10px] sm:text-xs text-slate-400 truncate">{t('reports.vs_last_month')}</span>
                 </div>
               </div>
             </div>
-            <div className={`shrink-0 flex items-center justify-center w-9 h-9 rounded-xl ${!trends.expenseUp ? 'bg-emerald-50 text-emerald-500' : 'bg-rose-50 text-rose-500'}`}>
-              {!trends.expenseUp ? <FiTrendingUp size={18} /> : <FiTrendingDown size={18} />}
+            <div className={`shrink-0 flex items-center justify-center w-9 h-9 rounded-xl ${trends.expenseUp ? 'bg-emerald-50 text-emerald-500' : 'bg-rose-50 text-rose-500'}`}>
+              {trends.expenseUp ? <FiTrendingUp size={18} /> : <FiTrendingDown size={18} />}
             </div>
           </div>
         </div>

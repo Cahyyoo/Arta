@@ -180,7 +180,7 @@ const Layout = () => {
             {/* Logo image */}
             <img
               src={logoImg}
-              alt="Artha Logo"
+              alt="Arta Logo"
               className={`w-auto object-contain transition-all duration-300 drop-shadow-sm ${isDesktopSidebarCollapsed ? 'h-8' : 'h-11 sm:h-12'}`}
             />
             {/* Brand text */}
@@ -343,7 +343,7 @@ const Layout = () => {
             >
               <div className="py-6 flex flex-col items-center justify-center relative border-b border-slate-100">
                 <div className="flex flex-col items-center gap-2">
-                  <img src={logoImg} alt="Artha Logo" className="h-11 sm:h-12 w-auto object-contain drop-shadow-sm" />
+                  <img src={logoImg} alt="Arta Logo" className="h-11 sm:h-12 w-auto object-contain drop-shadow-sm" />
                   <span
                     className="text-[15px] font-black tracking-[0.2em] pl-[0.1em] text-slate-800 mt-1"
                     style={{ fontFamily: "'Plus Jakarta Sans', 'Outfit', 'Inter', sans-serif" }}

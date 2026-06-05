@@ -247,7 +247,6 @@ const handleGoogleLogin = async () => {
               <li><code>date</code> : Format YYYY-MM-DD</li>
               <li><code>category</code> : Kateorin</li>
               <li><code>description</code> : Keterangan detail</li>
-              <li><code>invoiceFile</code> : (Opsional) File gambar/PDF</li>
             </ul>
           </div>
         </div>

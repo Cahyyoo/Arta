@@ -1,16 +1,16 @@
-# 💼 Arta Client — Frontend
+# Arta Client — Frontend
 
 Antarmuka pengguna resmi platform **Arta**, aplikasi pengelolaan keuangan UMKM. Dibangun dengan **React 19 + Vite + Tailwind CSS**, mendukung multi-bahasa, export laporan, visualisasi data, dan AI forecasting langsung di browser.
 
 ---
 
-## 🌐 Live App
+## Live App
 
 > Hubungkan ke repository untuk mengisi URL produksi di sini.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Kategori | Teknologi |
 |---|---|
@@ -29,7 +29,7 @@ Antarmuka pengguna resmi platform **Arta**, aplikasi pengelolaan keuangan UMKM. 
 
 ---
 
-## 📂 Struktur Proyek
+## Struktur Proyek
 
 ```
 client/
@@ -78,7 +78,7 @@ client/
 
 ---
 
-## ⚡ Menjalankan Secara Lokal
+## Menjalankan Secara Lokal
 
 ### 1. Clone Repository
 
@@ -123,7 +123,7 @@ npm run preview
 
 ---
 
-## 🗺️ Halaman & Fitur
+## Halaman & Fitur
 
 | Halaman | Path | Deskripsi |
 |---|---|---|
@@ -142,13 +142,13 @@ npm run preview
 
 ---
 
-## 🌍 Dukungan Multi-Bahasa (i18n)
+## Dukungan Multi-Bahasa (i18n)
 
 Aplikasi mendukung multi-bahasa menggunakan **i18next**. Konfigurasi tersedia di `src/i18n.js`. Bahasa saat ini dideteksi otomatis dari browser.
 
 ---
 
-## 🔐 Autentikasi & Proteksi Rute
+## Autentikasi & Proteksi Rute
 
 - Semua halaman dashboard diproteksi dengan `ProtectedRoute`.
 - Jika belum login → diarahkan ke `/login`.
@@ -157,7 +157,7 @@ Aplikasi mendukung multi-bahasa menggunakan **i18next**. Konfigurasi tersedia di
 
 ---
 
-## 📤 Export Laporan
+## Export Laporan
 
 Laporan keuangan dapat diekspor dalam format:
 - **PDF** — menggunakan jsPDF + jspdf-autotable
@@ -165,7 +165,7 @@ Laporan keuangan dapat diekspor dalam format:
 
 ---
 
-## 🚀 Deployment
+## Deployment
 
 Proyek ini dapat di-deploy ke **Vercel** atau **Netlify**. Pastikan semua environment variable `VITE_*` sudah dikonfigurasi di dashboard platform.
 
@@ -179,6 +179,6 @@ netlify deploy --prod
 
 ---
 
-## 📄 Lisensi
+## Lisensi
 
 MIT License © 2026 Arta

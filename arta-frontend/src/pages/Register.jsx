@@ -16,6 +16,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const navigate = useNavigate();
 
   const isEmailValid =
@@ -46,6 +47,10 @@ const Register = () => {
 
     if (!pwdCriteria.length || !pwdCriteria.uppercase || !pwdCriteria.number) {
       return setError("Password tidak memenuhi semua kriteria");
+    }
+
+    if (!agreeTerms) {
+      return setError("Anda harus menyetujui Syarat & Ketentuan");
     }
 
     if (formData.password !== formData.confirmPassword) {
@@ -255,17 +260,25 @@ const Register = () => {
           </button>
         </div>
 
-        <p className="text-center text-xs text-slate-500 mt-4">
-          By continuing with Google, Apple, or Email, you agree to UMKM Finance{" "}
-          <a href="#" className="font-semibold underline">
-            Terms of Service
-          </a>{" "}
-          and{" "}
-          <a href="#" className="font-semibold underline">
-            Privacy Policy
-          </a>
-          .
-        </p>
+        <label className="flex items-start gap-2.5 cursor-pointer group mt-4">
+          <input
+            type="checkbox"
+            checked={agreeTerms}
+            onChange={(e) => setAgreeTerms(e.target.checked)}
+            className="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-0 cursor-pointer"
+          />
+          <span className="text-xs text-slate-500 leading-relaxed select-none group-hover:text-slate-600 transition-colors">
+            By continuing with Google or Email, you agree to UMKM Finance{" "}
+            <a href="#" className="font-semibold underline text-slate-600 hover:text-indigo-600 transition-colors">
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a href="#" className="font-semibold underline text-slate-600 hover:text-indigo-600 transition-colors">
+              Privacy Policy
+            </a>
+            .
+          </span>
+        </label>
 
         <p className="mt-auto pt-6 text-center text-sm font-medium text-slate-600">
           Already have an account?{" "}

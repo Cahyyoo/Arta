@@ -85,7 +85,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
+    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+    if (storedUser) setUser(parsedUser);
 
     const storedProfile = localStorage.getItem("profile");
     const prof = storedProfile ? JSON.parse(storedProfile) : null;
@@ -102,7 +103,8 @@ const Dashboard = () => {
       localStorage.removeItem("new_business_name");
     }
 
-    const isEmp = ["ADMIN", "STAFF", "USER"].includes(String(prof?.role || "").toUpperCase());
+    const roleFromUser = parsedUser?.user_metadata?.role || "";
+    const isEmp = ["ADMIN", "STAFF", "USER"].includes(String(prof?.role || roleFromUser || "").toUpperCase());
 
     const rangeMap = {
       "7_hari": "last_7_days",
@@ -126,9 +128,9 @@ const Dashboard = () => {
           const errorMsg = err.response?.data?.message || "Gagal mengambil data. Server mungkin sedang offline.";
           setApiError(errorMsg);
 
-          // Auto-sync business_id untuk karyawan yang belum memiliki entitas bisnis
+          // Auto-sync business_id untuk yang belum memiliki entitas bisnis
           const isBusinessError = errorMsg.toLowerCase().includes("entitas bisnis") || errorMsg.toLowerCase().includes("business");
-          if (isBusinessError && isEmp) {
+          if (isBusinessError) {
             api.post("/api/profile/sync-business")
               .then((syncRes) => {
                 const syncData = syncRes.data;
@@ -595,8 +597,8 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <div className={`shrink-0 flex items-center justify-center w-9 h-9 rounded-xl ${(dashboardData?.summary?.expense_change || 0) <= 0 ? 'bg-emerald-50 text-emerald-500' : 'bg-rose-50 text-rose-500'}`}>
-                {(dashboardData?.summary?.expense_change || 0) <= 0 ? <FiTrendingUp size={18} /> : <FiTrendingDown size={18} />}
+              <div className={`shrink-0 flex items-center justify-center w-9 h-9 rounded-xl ${(dashboardData?.summary?.expense_change || 0) >= 0 ? 'bg-emerald-50 text-emerald-500' : 'bg-rose-50 text-rose-500'}`}>
+                {(dashboardData?.summary?.expense_change || 0) >= 0 ? <FiTrendingUp size={18} /> : <FiTrendingDown size={18} />}
               </div>
             </div>
           </div>

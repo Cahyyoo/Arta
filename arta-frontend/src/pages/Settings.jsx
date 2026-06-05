@@ -2,11 +2,11 @@ import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
-  FiShield, FiPlus, FiEdit2, FiKey, FiTrash2, FiUser, FiX,
-  FiBriefcase, FiMapPin, FiTag, FiSave, FiCheck, FiLoader,
-  FiPhone, FiMail, FiGlobe, FiUsers, FiCalendar, FiFileText,
-  FiInstagram, FiCreditCard, FiHash, FiSearch
-} from "react-icons/fi";
+  IconShield, IconPlus, IconEdit, IconKey, IconTrash, IconUser, IconX,
+  IconBriefcase, IconMapPin, IconTag, IconDeviceFloppy, IconCheck, IconLoader2,
+  IconPhone, IconMail, IconGlobe, IconUsers, IconCalendar, IconFileText,
+  IconBrandInstagram, IconCreditCard, IconHash, IconSearch
+} from "@tabler/icons-react";
 import api from "../services/api";
 import { supabase } from "../services/supabaseClient";
 
@@ -189,6 +189,46 @@ const Settings = () => {
         localStorage.setItem("user", JSON.stringify(updatedUser));
       }
 
+      // Daftarkan/update bisnis ke backend Vercel (PUT /business via Express proxy)
+      const businessPayload = {
+        name: businessProfile.namaUsaha,
+        type: businessProfile.kategoriUsaha,
+        industry: businessProfile.jenisUsaha,
+        founded_year: businessProfile.tahunBerdiri,
+        employee_count: businessProfile.jumlahKaryawan,
+        description: businessProfile.deskripsiUsaha,
+        phone: businessProfile.teleponUsaha,
+        email: businessProfile.emailUsaha,
+        address: businessProfile.alamatUsaha,
+        website: businessProfile.website,
+        instagram: businessProfile.instagram,
+        nib: businessProfile.nib,
+        npwp: businessProfile.npwp,
+      };
+
+      const bizRes = await fetch("/api/business", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(businessPayload)
+      });
+
+      if (!bizRes.ok) {
+        const errData = await bizRes.json().catch(() => ({}));
+        throw new Error(errData.message || errData.error || "Gagal menyimpan ke database bisnis");
+      }
+
+      const bizData = await bizRes.json();
+      const returnedBusinessId = bizData?.data?.business?.id || bizData?.business_id;
+
+      if (returnedBusinessId) {
+        const storedProfile = JSON.parse(localStorage.getItem("profile") || "{}");
+        storedProfile.business_id = returnedBusinessId;
+        localStorage.setItem("profile", JSON.stringify(storedProfile));
+      }
+
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("idle"), 2500);
     } catch (err) {
@@ -327,12 +367,12 @@ const Settings = () => {
                       onClick={() => setIsAddModalOpen(true)}
                       className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-2 active:scale-95 shadow-md shadow-indigo-500/20"
                     >
-                      <FiPlus size={18} /> {t('settings.add_new_access')}
+                      <IconPlus size={18} /> {t('settings.add_new_access')}
                     </button>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3 mt-4">
                     <div className="relative flex-1 max-w-xs">
-                      <FiSearch size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <IconSearch size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" />
                       <input
                         type="text"
                         value={roleSearchTerm}
@@ -368,7 +408,7 @@ const Settings = () => {
                       {isLoadingUsers ? (
                         <tr>
                           <td colSpan="4" className="px-6 py-8 text-center text-slate-500">
-                            <FiLoader className="animate-spin inline-block mr-2" /> Memuat data...
+                            <IconLoader2 className="animate-spin inline-block mr-2" /> Memuat data...
                           </td>
                         </tr>
                       ) : filteredUsers.length === 0 ? (
@@ -429,7 +469,7 @@ const Settings = () => {
                                     className="text-slate-400 hover:text-indigo-600 transition-colors p-2 rounded-lg hover:bg-indigo-50"
                                     title={t('settings.edit_access')}
                                   >
-                                    <FiEdit2 size={16} />
+                                    <IconEdit size={16} />
                                   </button>
                                 )}
                                 {!isThisOwner && !user.is_current_user && (
@@ -438,7 +478,7 @@ const Settings = () => {
                                     className="text-slate-400 hover:text-red-600 transition-colors p-2 rounded-lg hover:bg-red-50"
                                     title={t('settings.delete_access')}
                                   >
-                                    <FiTrash2 size={16} />
+                                    <IconTrash size={16} />
                                   </button>
                                 )}
                               </div>
@@ -458,8 +498,8 @@ const Settings = () => {
               {/* === IDENTITAS USAHA === */}
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
-                    <FiBriefcase size={15} className="text-white" />
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
+                    <IconBriefcase size={15} className="text-white" />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-800">{t('settings.business_identity')}</h3>
@@ -469,7 +509,7 @@ const Settings = () => {
                 <div className="p-6 space-y-5">
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <FiBriefcase size={11} /> {t('settings.business_name')}
+                      <IconBriefcase size={11} /> {t('settings.business_name')}
                     </label>
                     <input type="text" value={businessProfile.namaUsaha} onChange={handleBusinessChange("namaUsaha")}
                       placeholder="Contoh: Warung Makan Sederhana"
@@ -478,7 +518,7 @@ const Settings = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                        <FiTag size={11} /> {t('settings.business_category')}
+                        <IconTag size={11} /> {t('settings.business_category')}
                       </label>
                       <select value={businessProfile.kategoriUsaha} onChange={handleBusinessChange("kategoriUsaha")}
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 shadow-sm appearance-none cursor-pointer">
@@ -488,7 +528,7 @@ const Settings = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                        <FiFileText size={11} /> {t('settings.business_type')}
+                        <IconFileText size={11} /> {t('settings.business_type')}
                       </label>
                       <select value={businessProfile.jenisUsaha} onChange={handleBusinessChange("jenisUsaha")}
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 shadow-sm appearance-none cursor-pointer">
@@ -503,7 +543,7 @@ const Settings = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                        <FiCalendar size={11} /> {t('settings.founded_year')}
+                        <IconCalendar size={11} /> {t('settings.founded_year')}
                       </label>
                       <input type="number" min="1900" max="2099" value={businessProfile.tahunBerdiri} onChange={handleBusinessChange("tahunBerdiri")}
                         placeholder="Contoh: 2020"
@@ -511,7 +551,7 @@ const Settings = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                        <FiUsers size={11} /> {t('settings.employee_count')}
+                        <IconUsers size={11} /> {t('settings.employee_count')}
                       </label>
                       <select value={businessProfile.jumlahKaryawan} onChange={handleBusinessChange("jumlahKaryawan")}
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 shadow-sm appearance-none cursor-pointer">
@@ -527,7 +567,7 @@ const Settings = () => {
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <FiFileText size={11} /> {t('settings.business_desc')}
+                      <IconFileText size={11} /> {t('settings.business_desc')}
                     </label>
                     <textarea value={businessProfile.deskripsiUsaha} onChange={handleBusinessChange("deskripsiUsaha")}
                       placeholder="Ceritakan tentang produk/jasa yang ditawarkan dan keunggulan usaha Anda..."
@@ -540,8 +580,8 @@ const Settings = () => {
               {/* === KONTAK & LOKASI === */}
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-                    <FiMapPin size={15} className="text-white" />
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
+                    <IconMapPin size={15} className="text-white" />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-800">{t('settings.contact_location')}</h3>
@@ -552,7 +592,7 @@ const Settings = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                        <FiPhone size={11} /> {t('settings.business_phone')}
+                        <IconPhone size={11} /> {t('settings.business_phone')}
                       </label>
                       <input type="tel" value={businessProfile.teleponUsaha} onChange={handleBusinessChange("teleponUsaha")}
                         placeholder="021-12345678"
@@ -560,7 +600,7 @@ const Settings = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                        <FiMail size={11} /> {t('settings.business_email')}
+                        <IconMail size={11} /> {t('settings.business_email')}
                       </label>
                       <input type="email" value={businessProfile.emailUsaha} onChange={handleBusinessChange("emailUsaha")}
                         placeholder="info@usahasaya.com"
@@ -569,7 +609,7 @@ const Settings = () => {
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <FiMapPin size={11} /> {t('settings.business_address')}
+                      <IconMapPin size={11} /> {t('settings.business_address')}
                     </label>
                     <textarea value={businessProfile.alamatUsaha} onChange={handleBusinessChange("alamatUsaha")}
                       placeholder="Masukkan alamat lengkap usaha Anda..."
@@ -582,8 +622,8 @@ const Settings = () => {
               {/* === DIGITAL & MEDIA SOSIAL === */}
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center">
-                    <FiGlobe size={15} className="text-white" />
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
+                    <IconGlobe size={15} className="text-white" />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-800">{t('settings.digital_social')}</h3>
@@ -593,7 +633,7 @@ const Settings = () => {
                 <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <FiGlobe size={11} /> {t('settings.website')}
+                      <IconGlobe size={11} /> {t('settings.website')}
                     </label>
                     <input type="url" value={businessProfile.website} onChange={handleBusinessChange("website")}
                       placeholder="https://www.usahasaya.com"
@@ -601,7 +641,7 @@ const Settings = () => {
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <FiInstagram size={11} /> {t('settings.instagram')}
+                      <IconBrandInstagram size={11} /> {t('settings.instagram')}
                     </label>
                     <div className="relative">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">@</span>
@@ -616,8 +656,8 @@ const Settings = () => {
               {/* === LEGALITAS === */}
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
-                    <FiShield size={15} className="text-white" />
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
+                    <IconShield size={15} className="text-white" />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-800">{t('settings.legal_info')}</h3>
@@ -627,7 +667,7 @@ const Settings = () => {
                 <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <FiHash size={11} /> {t('settings.nib')}
+                      <IconHash size={11} /> {t('settings.nib')}
                     </label>
                     <input type="text" value={businessProfile.nib} onChange={handleBusinessChange("nib")}
                       placeholder="Contoh: 1234567890123"
@@ -635,7 +675,7 @@ const Settings = () => {
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <FiCreditCard size={11} /> {t('settings.npwp')}
+                      <IconCreditCard size={11} /> {t('settings.npwp')}
                     </label>
                     <input type="text" value={businessProfile.npwp} onChange={handleBusinessChange("npwp")}
                       placeholder="Contoh: 00.000.000.0-000.000"
@@ -657,9 +697,9 @@ const Settings = () => {
                     }
                     disabled:opacity-80 disabled:cursor-not-allowed`}
                 >
-                  {saveStatus === "saving" && <FiLoader size={16} className="animate-spin" />}
-                  {saveStatus === "saved" && <FiCheck size={16} strokeWidth={3} />}
-                  {saveStatus === "idle" && <FiSave size={16} strokeWidth={2.5} />}
+                  {saveStatus === "saving" && <IconLoader2 size={16} className="animate-spin text-white" />}
+                  {saveStatus === "saved" && <IconCheck size={16} strokeWidth={3} className="text-white" />}
+                  {saveStatus === "idle" && <IconDeviceFloppy size={16} strokeWidth={2.5} className="text-white" />}
                   {saveStatus === "saving" && t('settings.saving')}
                   {saveStatus === "saved" && t('settings.save_success')}
                   {saveStatus === "idle" && t('settings.save_changes')}
@@ -678,7 +718,7 @@ const Settings = () => {
             <div className="bg-gradient-to-br from-indigo-600 to-indigo-700 px-6 py-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md">
-                  <FiUsers className="text-white" size={20} />
+                  <IconUsers className="text-white" size={20} />
                 </div>
                 <div>
                   <h3 className="font-black text-white text-lg">{t('settings.create_new_access')}</h3>
@@ -686,39 +726,39 @@ const Settings = () => {
                 </div>
               </div>
               <button onClick={() => setIsAddModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
-                <FiX size={16} strokeWidth={3} />
+                <IconX size={16} strokeWidth={3} />
               </button>
             </div>
 
             <form onSubmit={handleAddSubmit} className="p-7 space-y-6">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                  <FiUser size={11} /> {t('settings.full_name_label')}
+                  <IconUser size={11} /> {t('settings.full_name_label')}
                 </label>
                 <input type="text" required value={newUserData.name} onChange={(e) => setNewUserData({ ...newUserData, name: e.target.value })} placeholder={t('settings.full_name_placeholder')} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 shadow-sm" />
               </div>
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                  <FiMail size={11} /> {t('settings.employee_email_label')}
+                  <IconMail size={11} /> {t('settings.employee_email_label')}
                 </label>
                 <input type="email" required value={newUserData.email} onChange={(e) => setNewUserData({ ...newUserData, email: e.target.value })} placeholder={t('settings.employee_email_placeholder')} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 shadow-sm" />
               </div>
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                  <FiKey size={11} /> Password untuk Login
+                  <IconKey size={11} /> Password untuk Login
                 </label>
                 <input type="password" required value={newUserData.password} onChange={(e) => setNewUserData({ ...newUserData, password: e.target.value })} placeholder="Set password untuk akun ini" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 shadow-sm" />
               </div>
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                  <FiShield size={11} /> {t('settings.choose_role_label')}
+                  <IconShield size={11} /> {t('settings.choose_role_label')}
                 </label>
                 <select value={newUserData.role} onChange={(e) => setNewUserData({ ...newUserData, role: e.target.value })} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 shadow-sm appearance-none cursor-pointer">
                   <option value="Admin">{t('settings.role_admin_option')}</option>
                   <option value="User">{t('settings.role_user_option')}</option>
                 </select>
                 <div className="flex items-start gap-1.5 mt-2 p-3 bg-indigo-50 rounded-xl">
-                  <FiKey className="text-indigo-500 mt-0.5 shrink-0" size={14} />
+                  <IconKey className="text-slate-600 mt-0.5 shrink-0" size={14} />
                   <p className="text-[11px] text-indigo-700 font-medium leading-relaxed">
                     {t('settings.owner_control_notice')}
                   </p>
@@ -730,7 +770,7 @@ const Settings = () => {
                   {t('settings.cancel')}
                 </button>
                 <button type="submit" disabled={addLoading} className="flex-1 py-3.5 px-4 rounded-xl font-black text-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow-md shadow-indigo-500/20 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-                  {addLoading && <FiLoader size={14} className="animate-spin" />}
+                  {addLoading && <IconLoader2 size={14} className="animate-spin text-white" />}
                   {addLoading ? 'Membuat...' : t('settings.save_account')}
                 </button>
               </div>
@@ -747,7 +787,7 @@ const Settings = () => {
             <div className="bg-gradient-to-br from-indigo-600 to-indigo-700 px-6 py-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md">
-                  <FiEdit2 className="text-white" size={20} />
+                  <IconEdit className="text-white" size={20} />
                 </div>
                 <div>
                   <h3 className="font-black text-white text-lg">{editUserData.isOwner ? 'Edit Nama Owner' : 'Edit Akses'}</h3>
@@ -755,21 +795,21 @@ const Settings = () => {
                 </div>
               </div>
               <button onClick={() => setIsEditModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
-                <FiX size={16} strokeWidth={3} />
+                <IconX size={16} strokeWidth={3} />
               </button>
             </div>
 
             <form onSubmit={handleEditSubmit} className="p-7 space-y-6">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                  <FiUser size={11} /> {t('settings.full_name_label')}
+                  <IconUser size={11} /> {t('settings.full_name_label')}
                 </label>
                 <input type="text" required value={editUserData.name} onChange={(e) => setEditUserData({ ...editUserData, name: e.target.value })} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 shadow-sm" />
               </div>
 
               {editUserData.isOwner ? (
                 <div className="flex items-start gap-1.5 p-3 bg-indigo-50 rounded-xl">
-                  <FiShield className="text-indigo-500 mt-0.5 shrink-0" size={14} />
+                  <IconShield className="text-slate-600 mt-0.5 shrink-0" size={14} />
                   <p className="text-[11px] text-indigo-700 font-medium leading-relaxed">
                     Role <strong>OWNER</strong> tidak dapat diubah. Anda hanya bisa mengedit nama tampilan.
                   </p>
@@ -777,7 +817,7 @@ const Settings = () => {
               ) : (
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                    <FiShield size={11} /> {t('settings.choose_role_label')}
+                    <IconShield size={11} /> {t('settings.choose_role_label')}
                   </label>
                   <select value={editUserData.role} onChange={(e) => setEditUserData({ ...editUserData, role: e.target.value })} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 shadow-sm appearance-none cursor-pointer">
                     <option value="Admin">{t('settings.role_admin_option')}</option>
@@ -791,7 +831,7 @@ const Settings = () => {
                   {t('settings.cancel')}
                 </button>
                 <button type="submit" disabled={editLoading} className="flex-1 py-3.5 px-4 rounded-xl font-black text-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow-md shadow-indigo-500/20 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-                  {editLoading && <FiLoader size={14} className="animate-spin" />}
+                  {editLoading && <IconLoader2 size={14} className="animate-spin text-white" />}
                   {editLoading ? 'Menyimpan...' : 'Simpan Perubahan'}
                 </button>
               </div>
